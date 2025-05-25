@@ -5,24 +5,46 @@ import './portfolio.css';
 
 const tabs = ['About', 'Contact Me', 'Portfolio'];
 const skillCategories = {
-  Containerization: ["docker.svg", "kubernetes.svg", "helm.svg", "keda.svg"],
-  Cloud: ["gcp.svg", "azure.svg", "aws.svg"],
-  Observability: ["prometheus.svg", "grafana.svg", "thanos.svg", "cloudwatch.svg"],
-  "CI/CD": ["githubactions.svg", "azuredevops.svg", "bash.svg"],
-  Programming: ["cpp.svg", "python.svg", "c.svg"]
+  Containerization: [
+    `${process.env.PUBLIC_URL}/icons/docker.svg`,
+    `${process.env.PUBLIC_URL}/icons/kubernetes.svg`,
+    `${process.env.PUBLIC_URL}/icons/helm.svg`,
+    `${process.env.PUBLIC_URL}/icons/keda.svg`
+  ],
+  Cloud: [
+    `${process.env.PUBLIC_URL}/icons/gcp.svg`,
+    `${process.env.PUBLIC_URL}/icons/azure.svg`,
+    `${process.env.PUBLIC_URL}/icons/aws.svg`
+  ],
+  Observability: [
+    `${process.env.PUBLIC_URL}/icons/prometheus.svg`,
+    `${process.env.PUBLIC_URL}/icons/grafana.svg`,
+    `${process.env.PUBLIC_URL}/icons/thanos.svg`,
+    `${process.env.PUBLIC_URL}/icons/cloudwatch.svg`
+  ],
+  "CI/CD": [
+    `${process.env.PUBLIC_URL}/icons/githubactions.svg`,
+    `${process.env.PUBLIC_URL}/icons/azuredevops.svg`,
+    `${process.env.PUBLIC_URL}/icons/bash.svg`
+  ],
+  Programming: [
+    `${process.env.PUBLIC_URL}/icons/cpp.svg`,
+    `${process.env.PUBLIC_URL}/icons/python.svg`,
+    `${process.env.PUBLIC_URL}/icons/c.svg`
+  ]
 };
 
 const certifications = [
   {
     name: "Google Certified Professional Cloud Architect",
-    icon: "gcp.svg",
-    certificateImage: "/certificates/gcp-pca.png",
+    icon: `${process.env.PUBLIC_URL}/icons/gcp.svg`,
+    certificateImage: `${process.env.PUBLIC_URL}/certificates/gcp-pca.png`,
     keySkills: "Cloud Architecture, Cloud Computing, Cloud Security, Cloud Storage, Databases, GKE, Google Cloud Platform (GCP), Identity And Access Management (IAM), Networking, Scalability, Workload Migration"
   },
   {
     name: "Google Certified Associate Cloud Engineer",
-    icon: "gcp.svg",
-    certificateImage: "/certificates/gcp-ace.png",
+    icon: `${process.env.PUBLIC_URL}/icons/gcp.svg`,
+    certificateImage: `${process.env.PUBLIC_URL}/certificates/gcp-ace.png`,
     keySkills: "Cloud Architecture, Cloud Computing, Cloud Security, Cloud Storage, Compute Engine, GKE, Google Cloud Platform (GCP), Identity And Access Management (IAM), Infrastructure as Code (IaC), Networking, Pub/sub, SQL"
   }
 ];
@@ -156,7 +178,7 @@ const education = [
     highlights: [
       "Physics, Chemistry and Mathematics major",
       "Scored 99.85 percentile in State level entrance exam",
-      "Socred 96% in Joint Entrance Exam"
+      "Socred 96 percentile in Joint Entrance Exam"
     ],
     skills: [
       { name: "Physics", category: "science" },
@@ -218,7 +240,7 @@ const SkillTabs = () => {
         <div className="carousel-container">
           {categories.map((category, index) => (
             <motion.div
-              key={category}
+            key={category}
               className={`carousel-item ${activeTab === category ? 'active' : ''}`}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{
@@ -232,16 +254,16 @@ const SkillTabs = () => {
               <div className="icons-grid">
                 {skillCategories[category].map((icon, i) => (
                   <motion.img
-                    key={i}
-                    src={`/icons/${icon}`}
-                    alt={icon.replace(".svg", "")}
-                    className="skill-icon"
+            key={i}
+                    src={icon}
+            alt={icon.replace(".svg", "")}
+            className="skill-icon"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
                     whileHover={{ scale: 1.1 }}
-                  />
-                ))}
+          />
+        ))}
               </div>
             </motion.div>
           ))}
@@ -266,7 +288,7 @@ const CertificateCard = ({ certificate }) => (
     </div>
     <div className="certificate-info">
       <div className="certificate-header">
-        <img src={`/icons/${certificate.icon}`} alt="" className="cert-icon" />
+        <img src={certificate.icon} alt="" className="cert-icon" />
         <h3>{certificate.name}</h3>
       </div>
       <p className="key-skills">{certificate.keySkills}</p>
@@ -336,7 +358,7 @@ const ExperienceCard = ({ job, index }) => (
         </div>
       </div>
     </div>
-  </motion.div>
+        </motion.div>
 );
 
 const ExperienceSection = () => (
@@ -553,7 +575,7 @@ const Portfolio = () => {
         </div>
         <div className='profile'>
           <div className="profile-pic">
-            <img src="./profilePic.jpg" alt="Akshay" />
+            <img src={`${process.env.PUBLIC_URL}/profilePic.jpg`} alt="Akshay" />
           </div>
           <div className="intro">
             <h1>Akshaykumarsingh Rajput</h1>
