@@ -1,12 +1,14 @@
-
-import React, { useState } from 'react'; import { Mail, Phone, MapPin, Github, Linkedin, ChevronDown } from 'lucide-react'; import { motion, AnimatePresence } from 'framer-motion'; import './portfolio.css';
+import React, { useState } from 'react';
+import { Mail, Phone, MapPin, Github, Linkedin } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import './portfolio.css';
 
 const tabs = ['About', 'Contact Me', 'Portfolio'];
 const skillCategories = {
   Containerization: ["docker.svg", "kubernetes.svg", "helm.svg", "keda.svg"],
   Cloud: ["gcp.svg", "azure.svg", "aws.svg"],
   Observability: ["prometheus.svg", "grafana.svg", "thanos.svg", "cloudwatch.svg"],
-  Automation: ["githubactions.svg", "azuredevops.svg", "bash.svg"],
+  "CI/CD": ["githubactions.svg", "azuredevops.svg", "bash.svg"],
   Programming: ["cpp.svg", "python.svg", "c.svg"]
 };
 
@@ -14,28 +16,22 @@ const certifications = [
   {
     name: "Google Certified Professional Cloud Architect",
     icon: "gcp.svg",
-    details: "Validates advanced skills in designing, developing, and managing robust, secure, scalable, and dynamic solutions on Google Cloud."
+    certificateImage: "/certificates/gcp-pca.png",
+    keySkills: "Cloud Architecture, Cloud Computing, Cloud Security, Cloud Storage, Databases, GKE, Google Cloud Platform (GCP), Identity And Access Management (IAM), Networking, Scalability, Workload Migration"
   },
   {
     name: "Google Certified Associate Cloud Engineer",
     icon: "gcp.svg",
-    details: "Demonstrates foundational knowledge of deploying applications, monitoring operations, and managing enterprise solutions on GCP."
-  },
-  {
-    name: "Azure Fundamentals (AZ-900)",
-    icon: "azure.svg",
-    details: "Demonstrates foundational knowledge in Azure."
-  },
-  {
-    name: "Motorola Associate (Feb 2023 - May 2023)",
-    icon: "motorola.svg",
-    details: "Trained on Apache spacks on K8s."
+    certificateImage: "/certificates/gcp-ace.png",
+    keySkills: "Cloud Architecture, Cloud Computing, Cloud Security, Cloud Storage, Compute Engine, GKE, Google Cloud Platform (GCP), Identity And Access Management (IAM), Infrastructure as Code (IaC), Networking, Pub/sub, SQL"
   }
 ];
 
 const workExperience = [
   {
-    title: "Software Engineer, Motorola Solutions (June 2024 - Present)",
+    role: "Software Engineer",
+    company: "Motorola Solutions",
+    duration: "June 2024 - Present",
     content: (
       <ul className="list-disc ml-6">
         <li>Driving FIPS compliance for Prometheus by integrating FIPS-compliant cryptographic functions, ensuring secure TLS protocols
@@ -45,10 +41,20 @@ const workExperience = [
         <li>Contributing to the implementation of Prometheus-as-a-Service using a multi-cloud approach, enhancing flexibility and
           scalability.</li>
       </ul>
-    )
+    ),
+    skills: [
+      { name: "Prometheus", category: "monitoring" },
+      { name: "FIPS", category: "security" },
+      { name: "Multi-Cloud", category: "cloud" },
+      { name: "TLS", category: "security" },
+      { name: "System Design", category: "architecture" },
+      { name: "Kubernetes", category: "containerization" }
+    ]
   },
   {
-    title: "Software Engineer Intern, Motorola Solutions (May 2023 - May 2024)",
+    role: "Software Engineer Intern",
+    company: "Motorola Solutions",
+    duration: "May 2023 - May 2024",
     content: (
       <ul className="list-disc ml-6">
         <li>Enhancing microservices performance and availability by implementing a custom, event-driven KEDA auto-scaler</li>
@@ -59,148 +65,524 @@ const workExperience = [
         <li>Played a key role in rearchitecting the metrics collection and visualization system to support 20M+ unique time series with a 2-
           year retention period.</li>
       </ul>
-    )
+    ),
+    skills: [
+      { name: "KEDA", category: "automation" },
+      { name: "Cypress", category: "testing" },
+      { name: "Microservices", category: "architecture" },
+      { name: "CAdvisor", category: "monitoring" },
+      { name: "Time Series", category: "data" },
+      { name: "Auto-scaling", category: "cloud" }
+    ]
+  }
+];
+
+const projects = [
+  {
+    title: "Modern Portfolio Website",
+    description: "A responsive portfolio website built with React and Framer Motion, featuring modern UI/UX design and smooth animations.",
+    details: [
+      "Built with React and modern UI components",
+      "Implemented smooth animations using Framer Motion",
+      "Created responsive design with glassmorphism effects",
+      "Used AI-assisted development for efficient iteration"
+    ],
+    skills: [
+      { name: "React", category: "frontend" },
+      { name: "Framer Motion", category: "animation" },
+      { name: "CSS3", category: "styling" },
+      { name: "Responsive Design", category: "ui" },
+      { name: "Prompt Engineering", category: "ai" }
+    ]
+  },
+  {
+    title: "Microscopic Fungi Image Classification",
+    description: "Developed a CNN model using the Resnet Model as base for classification of fungal infection caused by yeast, mould. Using the pretrained Resnet model and adding new dense layer I was able to classify them into 5 different classes.",
+    details: [
+      "Processed and augmented 5000 images for training",
+      "Implemented transfer learning with ResNet architecture",
+      "Achieved classification into 5 distinct categories",
+      "Optimized model performance for medical image analysis"
+    ],
+    skills: [
+      { name: "CNN", category: "ml" },
+      { name: "ResNet", category: "ml" },
+      { name: "Transfer Learning", category: "ml" },
+      { name: "Image Processing", category: "data" },
+      { name: "Python", category: "programming" }
+    ]
+  },
+  {
+    title: "Diabetes Detection using SVM",
+    description: "Developed an SVM model with a 75.5% accuracy rate to determine whether a person has diabetes, using the Pima Indians Diabetes Database from Kaggle.",
+    details: [
+      "Implemented SVM classification algorithm",
+      "Created user interface using Tkinter",
+      "Achieved 75.5% prediction accuracy",
+      "Processed and analyzed medical data"
+    ],
+    skills: [
+      { name: "SVM", category: "ml" },
+      { name: "Tkinter", category: "ui" },
+      { name: "Data Analysis", category: "data" },
+      { name: "Python", category: "programming" },
+      { name: "Scikit-learn", category: "ml" }
+    ]
+  }
+];
+
+const education = [
+  {
+    degree: "B.Tech Computer Science Engineering",
+    institution: "CHARUSAT University",
+    duration: "2020 - 2024",
+    score: "9.51 CGPA",
+    highlights: [
+      "Top 10% in the department",
+      "Ranked 5th in University level coding competition"
+    ],
+    skills: [
+      { name: "Data Structures", category: "cs" },
+      { name: "Algorithms", category: "cs" },
+      { name: "Machine Learning", category: "ml" },
+      { name: "Cloud Computing", category: "cloud" }
+    ]
+  },
+  {
+    degree: "XII Science",
+    institution: "St. Xavier High School",
+    duration: "2018 - 2020",
+    score: "75.4%",
+    highlights: [
+      "Physics, Chemistry and Mathematics major",
+      "Scored 99.85 percentile in State level entrance exam",
+      "Socred 96% in Joint Entrance Exam"
+    ],
+    skills: [
+      { name: "Physics", category: "science" },
+      { name: "Mathematics", category: "science" },
+      { name: "Problem Solving", category: "soft" }
+    ]
+  }
+];
+
+const aboutHighlights = [
+  {
+    title: "Professional Experience",
+    description: "Software Engineer at Motorola Solutions with expertise in cloud infrastructure and observability",
+    icon: "💼"
+  },
+  {
+    title: "Cloud Expertise",
+    description: "Google Certified Professional Cloud Architect with hands-on experience in GCP, Azure, and multi-cloud environments",
+    icon: "☁️"
+  },
+  {
+    title: "Technical Focus",
+    description: "Specialized in cloud-native technologies, Kubernetes, and building scalable monitoring solutions",
+    icon: "🚀"
+  },
+  {
+    title: "Achievement",
+    description: "Improved system stability to achieve 99.90% availability and optimized costs across cloud platforms",
+    icon: "🎯"
   }
 ];
 
 const SkillTabs = () => {
   const [activeTab, setActiveTab] = useState("Containerization");
+  const categories = Object.keys(skillCategories);
+  const activeIndex = categories.indexOf(activeTab);
+
+  const handleNext = () => {
+    const nextIndex = (activeIndex + 1) % categories.length;
+    setActiveTab(categories[nextIndex]);
+  };
+
+  const handlePrev = () => {
+    const prevIndex = (activeIndex - 1 + categories.length) % categories.length;
+    setActiveTab(categories[prevIndex]);
+  };
 
   return (
     <div className="skill-tabs">
-      <div className="tab-buttons">
-        {Object.keys(skillCategories).map((category) => (
-          <button
-            key={category}
-            className={`tab-button ${activeTab === category ? 'active' : ''}`}
-            onClick={() => setActiveTab(category)}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-      <div className="tab-content">
-        {skillCategories[activeTab].map((icon, i) => (
-          <img
-            key={i}
-            src={`/icons/${icon}`}
-            alt={icon.replace(".svg", "")}
-            className="skill-icon"
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const ExpandableItem = ({ icon, title, content ,isExpanded = false}) => {
-  const [expanded, setExpanded] = useState(isExpanded);
-  return (
-    <div className="mb-4 border border-gray-300 shadow-lg rounded-lg">
-      <div className="flex items-center justify-between cursor-pointer" onClick={() => setExpanded(!expanded)}>
-        <div className="flex items-center space-x-4">
-          {icon && <img src={`/icons/${icon}`} alt={title} className="w-10 h-10 object-contain" />}
-          <span className="text-black font-semibold">{title}</span>
+      <div className="tab-carousel">
+        <motion.button 
+          className="carousel-control prev"
+          onClick={handlePrev}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          ←
+        </motion.button>
+        <div className="carousel-container">
+          {categories.map((category, index) => (
+            <motion.div
+              key={category}
+              className={`carousel-item ${activeTab === category ? 'active' : ''}`}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{
+                opacity: activeTab === category ? 1 : 0,
+                scale: activeTab === category ? 1 : 0.8,
+                display: activeTab === category ? 'flex' : 'none'
+              }}
+              transition={{ duration: 0.4 }}
+            >
+              <h3 className="category-title">{category}</h3>
+              <div className="icons-grid">
+                {skillCategories[category].map((icon, i) => (
+                  <motion.img
+                    key={i}
+                    src={`/icons/${icon}`}
+                    alt={icon.replace(".svg", "")}
+                    className="skill-icon"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    whileHover={{ scale: 1.1 }}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          ))}
         </div>
-        <motion.div animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.3 }}>
-          <ChevronDown className="text-cyan-900" />
-        </motion.div>
+        <motion.button 
+          className="carousel-control next"
+          onClick={handleNext}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          →
+        </motion.button>
       </div>
-      <AnimatePresence>
-        {expanded && (
-          <motion.div
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-            className="mt-2 text-black"
-          >
-            {content}
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
 
+const CertificateCard = ({ certificate }) => (
+  <div className="certificate-card">
+    <div className="certificate-image">
+      <img src={certificate.certificateImage} alt={certificate.name} />
+    </div>
+    <div className="certificate-info">
+      <div className="certificate-header">
+        <img src={`/icons/${certificate.icon}`} alt="" className="cert-icon" />
+        <h3>{certificate.name}</h3>
+      </div>
+      <p className="key-skills">{certificate.keySkills}</p>
+    </div>
+  </div>
+);
 
 const SectionWrapper = ({ show, children }) => (<AnimatePresence> {show && (<motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }} className="section" > {children} </motion.div>)} </AnimatePresence>);
+
+const SkillBadge = ({ skill }) => {
+  const categoryColors = {
+    monitoring: { bg: "bg-purple-100", text: "text-purple-700", border: "border-purple-200" },
+    security: { bg: "bg-red-100", text: "text-red-700", border: "border-red-200" },
+    cloud: { bg: "bg-blue-100", text: "text-blue-700", border: "border-blue-200" },
+    architecture: { bg: "bg-green-100", text: "text-green-700", border: "border-green-200" },
+    containerization: { bg: "bg-yellow-100", text: "text-yellow-700", border: "border-yellow-200" },
+    automation: { bg: "bg-orange-100", text: "text-orange-700", border: "border-orange-200" },
+    testing: { bg: "bg-pink-100", text: "text-pink-700", border: "border-pink-200" },
+    data: { bg: "bg-indigo-100", text: "text-indigo-700", border: "border-indigo-200" },
+    ml: { bg: "bg-emerald-100", text: "text-emerald-700", border: "border-emerald-200" },
+    ui: { bg: "bg-fuchsia-100", text: "text-fuchsia-700", border: "border-fuchsia-200" },
+    programming: { bg: "bg-cyan-100", text: "text-cyan-700", border: "border-cyan-200" },
+    cs: { bg: "bg-violet-100", text: "text-violet-700", border: "border-violet-200" },
+    science: { bg: "bg-amber-100", text: "text-amber-700", border: "border-amber-200" },
+    soft: { bg: "bg-teal-100", text: "text-teal-700", border: "border-teal-200" }
+  };
+
+  const colors = categoryColors[skill.category] || { bg: "bg-gray-100", text: "text-gray-700", border: "border-gray-200" };
+
+  return (
+    <motion.span
+      className={`skill-badge ${colors.bg} ${colors.text} ${colors.border}`}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      {skill.name}
+    </motion.span>
+  );
+};
+const ExperienceCard = ({ job, index }) => (
+  <motion.div 
+    className="experience-timeline-card"
+    initial={{ opacity: 0, x: 50 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5, delay: index * 0.2 }}
+  >
+    <div className="experience-content">
+      <div className="experience-header">
+        <div className="role-company">
+          <h3 className="experience-role">{job.role}</h3>
+          <div className="company-info">
+            <span className="company-name">{job.company}</span>
+            <span className="duration">{job.duration}</span>
+          </div>
+        </div>
+      </div>
+      <div className="experience-details">
+        {job.content}
+      </div>
+      <div className="skills-container">
+        <h4 className="skills-title">Technologies & Tools</h4>
+        <div className="skills-grid">
+          {job.skills.map((skill, idx) => (
+            <SkillBadge key={idx} skill={skill} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </motion.div>
+);
+
+const ExperienceSection = () => (
+  <section className="experience-section">
+    <h2 className="section-title">Professional Experience</h2>
+    <div className="experience-timeline">
+      {workExperience.map((job, idx) => (
+        <ExperienceCard key={idx} job={job} index={idx} />
+      ))}
+    </div>
+  </section>
+);
+
+const SkillsSection = () => (
+  <section className="skills-section">
+    <h2 className="section-title">Tech Stack</h2>
+    <SkillTabs />
+  </section>
+);
+
+const CertificationsSection = () => (
+  <section className="certifications-section">
+    <h2 className="section-title">Certifications</h2>
+    <div className="certificates-grid">
+      {certifications.map((cert, idx) => (
+        <CertificateCard key={idx} certificate={cert} />
+      ))}
+    </div>
+  </section>
+);
+
+const ProjectCard = ({ project }) => (
+  <div className="project-card">
+    <div className="project-main-content">
+      <div className="project-header">
+        <h3 className="project-title">{project.title}</h3>
+        <p className="project-description">{project.description}</p>
+      </div>
+      <div className="project-details">
+        <ul className="project-list">
+          {project.details.map((detail, idx) => (
+            <li key={idx}>{detail}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <div className="project-skills">
+      <h4 className="skills-title">Technologies Used</h4>
+      <div className="skills-grid">
+        {project.skills.map((skill, idx) => (
+          <SkillBadge key={idx} skill={skill} />
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+const ProjectsSection = () => (
+  <section className="projects-section">
+    <h2 className="section-title">Projects</h2>
+    <div className="projects-grid">
+      {projects.map((project, idx) => (
+        <ProjectCard key={idx} project={project} />
+      ))}
+    </div>
+  </section>
+);
+
+const EducationCard = ({ edu, index }) => (
+          <motion.div
+    className="education-card"
+    initial={{ opacity: 0, x: index % 2 === 1 ? 50 : -50 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5, delay: index * 0.2 }}
+  >
+    <div className="education-content">
+      <div className="education-header">
+        <h3 className="education-degree">{edu.degree}</h3>
+        <span className="education-duration">{edu.duration}</span>
+      </div>
+      <div className="education-institution">
+        <span className="institution-name">{edu.institution}</span>
+        <span className="education-score">{edu.score}</span>
+      </div>
+      <div className="education-highlights">
+        <ul>
+          {edu.highlights.map((highlight, idx) => (
+            <li key={idx}>{highlight}</li>
+          ))}
+        </ul>
+      </div>
+      <div className="skills-container">
+        <h4 className="skills-title">Key Learnings</h4>
+        <div className="skills-grid">
+          {edu.skills.map((skill, idx) => (
+            <SkillBadge key={idx} skill={skill} />
+          ))}
+        </div>
+      </div>
+    </div>
+          </motion.div>
+);
+
+const EducationSection = () => (
+  <section className="education-section">
+    <h2 className="section-title">Education</h2>
+    <div className="education-timeline">
+      {education.map((edu, idx) => (
+        <EducationCard key={idx} edu={edu} index={idx} />
+      ))}
+    </div>
+  </section>
+);
+
+const SocialIcon = ({ href, icon: Icon, label, className = "" }) => (
+  <motion.div 
+    className="contact-item"
+    whileHover={{ y: -5 }}
+    whileTap={{ scale: 0.95 }}
+  >
+    <a href={href} className={`contact-link ${className}`} target="_blank" rel="noreferrer">
+      <div className="icon-wrapper">
+        <Icon />
+      </div>
+      <span>{label}</span>
+    </a>
+  </motion.div>
+);
+
+const ContactSection = () => (
+  <div className="contact-list">
+    <SocialIcon
+      href="mailto:rajputakshay2710@gmail.com"
+      icon={Mail}
+      label="rajputakshay2710@gmail.com"
+      className="gmail"
+    />
+    <SocialIcon
+      href="tel:+918511607538"
+      icon={Phone}
+      label="(+91)8511607538"
+      className="phone"
+    />
+    <motion.div className="contact-item" whileHover={{ y: -5 }}>
+      <div className="contact-info location">
+        <div className="icon-wrapper">
+          <MapPin />
+        </div>
+        <span>Surat, Gujarat</span>
+      </div>
+    </motion.div>
+    <SocialIcon
+      href="http://github.com/RajputAkshay27"
+      icon={Github}
+      label="Github"
+      className="github"
+    />
+    <SocialIcon
+      href="http://www.linkedin.com/in/akshay-rajput-748208201"
+      icon={Linkedin}
+      label="LinkedIn"
+      className="linkedin"
+    />
+  </div>
+);
+
+const AboutSection = () => (
+  <div className="about-section">
+    <div className="about-intro">
+      <p className="about-text">
+        Software Engineer with 2+ years of hands-on experience in Observability. Skilled in deploying and managing monitoring stacks,
+        automating infrastructure, and maintaining high availability for cloud-native applications. Proficient with GCP, Azure, Kubernetes,
+        Prometheus, Grafana, and CI/CD tools. Passionate about reducing toil, improving system visibility, and enhancing operational
+        resilience.
+      </p>
+    </div>
+    <div className="about-highlights">
+      {aboutHighlights.map((highlight, index) => (
+        <motion.div
+          key={index}
+          className="highlight-card"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: index * 0.1 }}
+        >
+          <div className="highlight-icon">{highlight.icon}</div>
+          <div className="highlight-content">
+            <h3>{highlight.title}</h3>
+            <p>{highlight.description}</p>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+);
 
 const Portfolio = () => {
   const [activeTab, setActiveTab] = useState('About');
 
   return (
-    <div className="portfolio-container"> <header className="portfolio-header">
-      <div className="intro"> <h1>Akshaykumarsingh Rajput</h1> <p> <h2> <b>Software Engineer @ Motorola Solutions</b></h2> </p>
-        <p> <h2> <b>GCP Professional Cloud Architect</b></h2> </p>
-        <div className="button-group"> {tabs.map(tab => (<button key={tab} className={activeTab === tab ? 'active' : ''} onClick={() => setActiveTab(tab)} > {tab} </button>))}
-        </div> </div> <div className="profile-pic"> <img src="./profilePic.jpg" alt="Akshay" /> </div> </header>
+    <div className="portfolio-container">
+      <header className="portfolio-header">
+        <div className="button-group">
+          {tabs.map(tab => (
+            <button
+              key={tab}
+              className={activeTab === tab ? 'active' : ''}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+        <div className='profile'>
+          <div className="profile-pic">
+            <img src="./profilePic.jpg" alt="Akshay" />
+          </div>
+          <div className="intro">
+            <h1>Akshaykumarsingh Rajput</h1>
+            <p><h2><b>Software Engineer @ Motorola Solutions</b></h2></p>
+            <p><h2><b>GCP Professional Cloud Architect</b></h2></p>
+          </div>
+        </div>
+      </header>
 
       <main className="portfolio-main">
         <SectionWrapper show={activeTab === 'About'}>
-          <p class="text-gray-700">
-            Software Engineer with 2+ years of hands-on experience in Observability. Skilled in deploying and managing monitoring stacks,
-            automating infrastructure, and maintaining high availability for cloud-native applications. Proficient with GCP, Azure, Kubernetes,
-            Prometheus, Grafana, and CI/CD tools. Passionate about reducing toil, improving system visibility, and enhancing operational
-            resilience
-          </p>
+          <AboutSection />
         </SectionWrapper>
 
         <SectionWrapper show={activeTab === 'Contact Me'}>
-          <ul className="contact-list">
-            <li><a href="mailto:rajputakshay2710@gmail.com" className="hover:text-cyan-400"><Mail /></a> rajputakshay2710@gmail.com</li>
-            <li><a href="tel:+918511607538" className="hover:text-cyan-400"><Phone /></a> (+91)8511607538</li>
-            <li><MapPin />Surat, Gujarat</li>
-            <li><a href="http://github.com/RajputAkshay27" target="_blank" rel="noreferrer" className="hover:text-cyan-400"><Github /></a>Github</li>
-            <li><a href="http://www.linkedin.com/in/akshay-rajput-748208201" target="_blank" rel="noreferrer" className="hover:text-cyan-400"><Linkedin /></a>
-              Linkedin</li>
-          </ul>
+          <ContactSection />
         </SectionWrapper>
 
         <SectionWrapper show={activeTab === 'Portfolio'}>
           <div className="portfolio-section">
-            <section>
-              <h2 className="text-2xl font-bold text-gray-300 mb-2">Professional Experience</h2>
-              {workExperience.map((job, idx) => (
-                <ExpandableItem key={idx} title={job.title} content={job.content} isExpanded={true}/>
-              ))}
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold text-cyan-300 mb-2">Tech Stack</h2>
-              <SkillTabs />
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold text-cyan-300 mb-2">Certifications</h2>
-              {certifications.map((cert, idx) => (
-                <ExpandableItem key={idx} title={cert.name} icon={cert.icon} content={<p>{cert.details}</p>} />
-              ))}
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold text-black mb-2">Education</h2>
-              <ul className="list-disc text-black ml-6">
-                <li>B.Tech CSE, CHARUSAT University, 9.51 CGPA (2020 - 2024)</li>
-                <li>XII Science, St. Xavier High School, 75.4% (2018 - 2020)</li>
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold text-black mb-2">Projects</h2>
-              <ul className="list-disc text-black ml-6">
-                <li><strong>Microscopic Fungi Image Classification:</strong> Developed a CNN model using the Resnet Model as base for classification of fungal infection caused by yeast, mould. Using
-                  the pretrained Resnet model and adding new dense layer I was able to classify them into 5 different classes. The dataset
-                  included 5000 images for training the model</li>
-                <li><strong>Diabetes Detection using SVM:</strong> Developed an SVM model with a 75.5% accuracy rate to determine whether a person has diabetes, and used Tkinkter to
-                  construct a simple user interface. This dataset was taken from Kaggle's Pima Indians Diabetes Database.</li>
-              </ul>
-            </section>
+            <ExperienceSection />
+            <SkillsSection />
+            <CertificationsSection />
+            <ProjectsSection />
+            <EducationSection />
           </div>
         </SectionWrapper>
       </main>
     </div>
-
   );
 };
 
