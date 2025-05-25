@@ -173,7 +173,7 @@ const education = [
   {
     degree: "XII Science",
     institution: "St. Xavier High School",
-    duration: "2018 - 2020",
+    duration: "2019 - 2020",
     score: "75.4%",
     highlights: [
       "Physics, Chemistry and Mathematics major",
