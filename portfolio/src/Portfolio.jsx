@@ -39,7 +39,7 @@ const certifications = [
     name: "Google Certified Professional Cloud Architect",
     icon: `${process.env.PUBLIC_URL}/icons/gcp.svg`,
     certificateImage: `${process.env.PUBLIC_URL}/certificates/gcp-pca.png`,
-    keySkills: "Cloud Architecture, Cloud Computing, Cloud Security, Cloud Storage, Databases, GKE, Google Cloud Platform (GCP), Identity And Access Management (IAM), Networking, Scalability, Workload Migration"
+    keySkills: "Cloud Architecture, Cloud Computing, Cloud Security, Cloud Storage, GKE, Google Cloud Platform (GCP), Identity And Access Management (IAM), Networking, Scalability, Workload Migration"
   },
   {
     name: "Google Certified Associate Cloud Engineer",
@@ -66,11 +66,13 @@ const workExperience = [
     ),
     skills: [
       { name: "Prometheus", category: "monitoring" },
+      { name: "Grafana", category: "monitoring"},
+      { name: "Kubernetes", category: "containerization" },
+      { name: "Node Exporter", category: "monitoring" },
+      { name: "OCI Image Format", category: "monitoring" },
       { name: "FIPS", category: "security" },
       { name: "Multi-Cloud", category: "cloud" },
-      { name: "TLS", category: "security" },
-      { name: "System Design", category: "architecture" },
-      { name: "Kubernetes", category: "containerization" }
+      { name: "System Design", category: "architecture" }
     ]
   },
   {
@@ -102,7 +104,7 @@ const workExperience = [
 const projects = [
   {
     title: "Modern Portfolio Website",
-    description: "A responsive portfolio website built with React and Framer Motion, featuring modern UI/UX design and smooth animations.",
+    description: "A responsive portfolio website built with React and Framer Motion, featuring modern UI/UX design and smooth animations built using AI.",
     details: [
       "Built with React and modern UI components",
       "Implemented smooth animations using Framer Motion",
