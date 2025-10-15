@@ -1,40 +1,46 @@
-import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Github, Linkedin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Mail, Phone, Github, Linkedin, Sun, Moon, Code2, Award } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './portfolio.css';
 
-const tabs = ['About', 'Contact Me', 'Portfolio'];
+const tabs = ['Home', 'About', 'Portfolio'];
 const skillCategories = {
-  Containerization: [
-    `${process.env.PUBLIC_URL}/icons/docker.svg`,
-    `${process.env.PUBLIC_URL}/icons/kubernetes.svg`,
-    `${process.env.PUBLIC_URL}/icons/helm.svg`,
-    `${process.env.PUBLIC_URL}/icons/keda.svg`
+  "Cloud Platforms": [
+    { name: "GCP", icon: `${process.env.PUBLIC_URL}/icons/gcp.svg` },
+    { name: "Azure", icon: `${process.env.PUBLIC_URL}/icons/azure.svg` },
+    { name: "AWS", icon: `${process.env.PUBLIC_URL}/icons/aws.svg` }
   ],
-  Cloud: [
-    `${process.env.PUBLIC_URL}/icons/gcp.svg`,
-    `${process.env.PUBLIC_URL}/icons/azure.svg`,
-    `${process.env.PUBLIC_URL}/icons/aws.svg`
+  "Containerization & Orchestration": [
+    { name: "Docker", icon: `${process.env.PUBLIC_URL}/icons/docker.svg` },
+    { name: "Kubernetes", icon: `${process.env.PUBLIC_URL}/icons/kubernetes.svg` },
+    { name: "Helm", icon: `${process.env.PUBLIC_URL}/icons/helm.svg` },
+    { name: "KEDA", icon: `${process.env.PUBLIC_URL}/icons/keda.svg` }
   ],
-  Observability: [
-    `${process.env.PUBLIC_URL}/icons/prometheus.svg`,
-    `${process.env.PUBLIC_URL}/icons/grafana.svg`,
-    `${process.env.PUBLIC_URL}/icons/thanos.svg`,
-    `${process.env.PUBLIC_URL}/icons/cloudwatch.svg`
+  "Observability": [
+    { name: "Prometheus", icon: `${process.env.PUBLIC_URL}/icons/prometheus.svg` },
+    { name: "Grafana", icon: `${process.env.PUBLIC_URL}/icons/grafana.svg` },
+    { name: "Thanos", icon: `${process.env.PUBLIC_URL}/icons/thanos.svg` },
+    { name: "CloudWatch", icon: `${process.env.PUBLIC_URL}/icons/cloudwatch.svg` }
   ],
   "CI/CD": [
-    `${process.env.PUBLIC_URL}/icons/githubactions.svg`,
-    `${process.env.PUBLIC_URL}/icons/azuredevops.svg`,
-    `${process.env.PUBLIC_URL}/icons/bash.svg`
+    { name: "GitHub Actions", icon: `${process.env.PUBLIC_URL}/icons/githubactions.svg` },
+    { name: "Azure DevOps", icon: `${process.env.PUBLIC_URL}/icons/azuredevops.svg` }
   ],
-  Programming: [
-    `${process.env.PUBLIC_URL}/icons/cpp.svg`,
-    `${process.env.PUBLIC_URL}/icons/python.svg`,
-    `${process.env.PUBLIC_URL}/icons/c.svg`
+  "Programming": [
+    { name: "Python", icon: `${process.env.PUBLIC_URL}/icons/python.svg` },
+    { name: "Bash", icon: `${process.env.PUBLIC_URL}/icons/bash.svg` },
+    { name: "C++", icon: `${process.env.PUBLIC_URL}/icons/cpp.svg` },
+    { name: "C", icon: `${process.env.PUBLIC_URL}/icons/c.svg` }
   ]
 };
 
 const certifications = [
+  {
+    name: "Certified Kubernetes Administrator",
+    icon: `${process.env.PUBLIC_URL}/icons/kubernetes.svg`,
+    certificateImage: `${process.env.PUBLIC_URL}/certificates/cka.png`,
+    keySkills: "Kubernetes Administration, Cluster Management, Troubleshooting, Container Orchestration, Pod Management, Service Mesh, Networking, Security, Storage, Monitoring"
+  },
   {
     name: "Google Certified Professional Cloud Architect",
     icon: `${process.env.PUBLIC_URL}/icons/gcp.svg`,
@@ -56,17 +62,20 @@ const workExperience = [
     duration: "June 2024 - Present",
     content: (
       <ul className="list-disc ml-6">
-        <li>Driving FIPS compliance for Prometheus by integrating FIPS-compliant cryptographic functions, ensuring secure TLS protocols
-          within the Federal region, and achieving cost savings of approximately $50,000 for these images.</li>
-        <li>Remodeled legacy system to increase stability and achieved availability of 99.90% </li>
-        <li>Ensuring system visibility across 30 plus cluster in a multi-cloud environment.</li>
-        <li>Contributing to the implementation of Prometheus-as-a-Service using a multi-cloud approach, enhancing flexibility and
-          scalability.</li>
+        <li><b>Security and Compliance:</b> Led FIPS compliance initiative for Prometheus monitoring stack, implementing
+          cryptographic security protocols and achieving <b>$50,000</b> cost savings through optimized container images</li>
+        <li><b>System Reliability:</b> Architect-ed and implemented system improvements that increased availability to
+          <b>99.90%</b>, supporting critical business operations. </li>
+        <li><b>Multi-Cloud Operations:</b> Designed and deployed automated workflows managing <b>30+</b> Kubernetes clusters
+          across multi-cloud environments, significantly reducing operational overhead</li>
+        <li><b>Critical Monitoring:</b> Engineered custom shell script to collect PVC storage utilization metrics, integrated
+          with Prometheus alerting system, reducing <b>disk-full incidents to near zero</b> and preventing multiple pro-
+          duction outages.</li>
       </ul>
     ),
     skills: [
       { name: "Prometheus", category: "monitoring" },
-      { name: "Grafana", category: "monitoring"},
+      { name: "Grafana", category: "monitoring" },
       { name: "Kubernetes", category: "containerization" },
       { name: "Node Exporter", category: "monitoring" },
       { name: "OCI Image Format", category: "monitoring" },
@@ -81,13 +90,15 @@ const workExperience = [
     duration: "May 2023 - May 2024",
     content: (
       <ul className="list-disc ml-6">
-        <li>Enhancing microservices performance and availability by implementing a custom, event-driven KEDA auto-scaler</li>
-        <li>Streamlining local and production testing by developing Cypress-based test suites and integrating alerting through Runscope</li>
-        <li>Addressed a CAdvisor metrics issue that had persisted for over 1.5 years, allowing the removal of a secondary exporter
-          previously added as a workaround. This resolution led to notable improvements in performance and cost efficiency.
+        <li><b>Critical Issue Resolution:</b> Resolved long-standing CAdvisor metrics collection issue <b>(1.5+ years)</b>, elimi-
+          nating need for secondary exporter and improving system performance and cost efficiency</li>
+        <li><b>Observability Enhancement:</b> Built comprehensive observability dashboards providing real-time perfor-
+          mance indicators and system health metrics, accelerating incident detection and reducing mean time to identify
+          <b>(MTTI) by 40 percent.</b></li>
+        <li><b>Performance Optimization:</b> Developed custom event-driven KEDA auto-scaler, improving microservices
+          performance and resource utilization efficiency
         </li>
-        <li>Played a key role in rearchitecting the metrics collection and visualization system to support 20M+ unique time series with a 2-
-          year retention period.</li>
+        <li><b>Testing:</b> Built comprehensive Cypress-based test suites streamlining both local development.</li>
       </ul>
     ),
     skills: [
@@ -102,23 +113,6 @@ const workExperience = [
 ];
 
 const projects = [
-  {
-    title: "Modern Portfolio Website",
-    description: "A responsive portfolio website built with React and Framer Motion, featuring modern UI/UX design and smooth animations built using AI.",
-    details: [
-      "Built with React and modern UI components",
-      "Implemented smooth animations using Framer Motion",
-      "Created responsive design with glassmorphism effects",
-      "Used AI-assisted development for efficient iteration"
-    ],
-    skills: [
-      { name: "React", category: "frontend" },
-      { name: "Framer Motion", category: "animation" },
-      { name: "CSS3", category: "styling" },
-      { name: "Responsive Design", category: "ui" },
-      { name: "Prompt Engineering", category: "ai" }
-    ]
-  },
   {
     title: "Microscopic Fungi Image Classification",
     description: "Developed a CNN model using the Resnet Model as base for classification of fungal infection caused by yeast, mould. Using the pretrained Resnet model and adding new dense layer I was able to classify them into 5 different classes.",
@@ -155,146 +149,13 @@ const projects = [
   }
 ];
 
-const education = [
-  {
-    degree: "B.Tech Computer Science Engineering",
-    institution: "CHARUSAT University",
-    duration: "2020 - 2024",
-    score: "9.51 CGPA",
-    highlights: [
-      "Top 10% in the department",
-      "Ranked 5th in University level coding competition"
-    ],
-    skills: [
-      { name: "Data Structures", category: "cs" },
-      { name: "Algorithms", category: "cs" },
-      { name: "Machine Learning", category: "ml" },
-      { name: "Cloud Computing", category: "cloud" }
-    ]
-  },
-  {
-    degree: "XII Science",
-    institution: "St. Xavier High School",
-    duration: "2019 - 2020",
-    score: "75.4%",
-    highlights: [
-      "Physics, Chemistry and Mathematics major",
-      "Scored 99.85 percentile in State level entrance exam",
-      "Socred 96 percentile in Joint Entrance Exam"
-    ],
-    skills: [
-      { name: "Physics", category: "science" },
-      { name: "Mathematics", category: "science" },
-      { name: "Problem Solving", category: "soft" }
-    ]
-  }
-];
 
-const aboutHighlights = [
-  {
-    title: "Professional Experience",
-    description: "Software Engineer at Motorola Solutions with expertise in cloud infrastructure and observability",
-    icon: "💼"
-  },
-  {
-    title: "Cloud Expertise",
-    description: "Google Certified Professional Cloud Architect with hands-on experience in GCP, Azure, and multi-cloud environments",
-    icon: "☁️"
-  },
-  {
-    title: "Technical Focus",
-    description: "Specialized in cloud-native technologies, Kubernetes, and building scalable monitoring solutions",
-    icon: "🚀"
-  },
-  {
-    title: "Achievement",
-    description: "Improved system stability to achieve 99.90% availability and optimized costs across cloud platforms",
-    icon: "🎯"
-  }
-];
 
-const SkillTabs = () => {
-  const [activeTab, setActiveTab] = useState("Containerization");
-  const categories = Object.keys(skillCategories);
-  const activeIndex = categories.indexOf(activeTab);
-
-  const handleNext = () => {
-    const nextIndex = (activeIndex + 1) % categories.length;
-    setActiveTab(categories[nextIndex]);
-  };
-
-  const handlePrev = () => {
-    const prevIndex = (activeIndex - 1 + categories.length) % categories.length;
-    setActiveTab(categories[prevIndex]);
-  };
-
-  return (
-    <div className="skill-tabs">
-      <div className="tab-carousel">
-        <motion.button 
-          className="carousel-control prev"
-          onClick={handlePrev}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          ←
-        </motion.button>
-        <div className="carousel-container">
-          {categories.map((category, index) => (
-            <motion.div
-            key={category}
-              className={`carousel-item ${activeTab === category ? 'active' : ''}`}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{
-                opacity: activeTab === category ? 1 : 0,
-                scale: activeTab === category ? 1 : 0.8,
-                display: activeTab === category ? 'flex' : 'none'
-              }}
-              transition={{ duration: 0.4 }}
-            >
-              <h3 className="category-title">{category}</h3>
-              <div className="icons-grid">
-                {skillCategories[category].map((icon, i) => (
-                  <motion.img
-            key={i}
-                    src={icon}
-            alt={icon.replace(".svg", "")}
-            className="skill-icon"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    whileHover={{ scale: 1.1 }}
-          />
-        ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        <motion.button 
-          className="carousel-control next"
-          onClick={handleNext}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          →
-        </motion.button>
-      </div>
-    </div>
-  );
-};
 
 const CertificateCard = ({ certificate }) => (
-  <div className="certificate-card">
-    <div className="certificate-image">
-      <img src={certificate.certificateImage} alt={certificate.name} />
-    </div>
-    <div className="certificate-info">
-      <div className="certificate-header">
-        <img src={certificate.icon} alt="" className="cert-icon" />
-        <h3>{certificate.name}</h3>
-      </div>
-      <p className="key-skills">{certificate.keySkills}</p>
-    </div>
+  <div className="certificate-item">
+    <img src={certificate.certificateImage} alt={certificate.name} className="cert-image" />
+    <span className="cert-name">{certificate.name}</span>
   </div>
 );
 
@@ -331,7 +192,7 @@ const SkillBadge = ({ skill }) => {
   );
 };
 const ExperienceCard = ({ job, index }) => (
-  <motion.div 
+  <motion.div
     className="experience-timeline-card"
     initial={{ opacity: 0, x: 50 }}
     whileInView={{ opacity: 1, x: 0 }}
@@ -360,7 +221,7 @@ const ExperienceCard = ({ job, index }) => (
         </div>
       </div>
     </div>
-        </motion.div>
+  </motion.div>
 );
 
 const ExperienceSection = () => (
@@ -374,17 +235,11 @@ const ExperienceSection = () => (
   </section>
 );
 
-const SkillsSection = () => (
-  <section className="skills-section">
-    <h2 className="section-title">Tech Stack</h2>
-    <SkillTabs />
-  </section>
-);
 
 const CertificationsSection = () => (
   <section className="certifications-section">
     <h2 className="section-title">Certifications</h2>
-    <div className="certificates-grid">
+    <div className="certificates-list">
       {certifications.map((cert, idx) => (
         <CertificateCard key={idx} certificate={cert} />
       ))}
@@ -429,180 +284,248 @@ const ProjectsSection = () => (
   </section>
 );
 
-const EducationCard = ({ edu, index }) => (
-          <motion.div
-    className="education-card"
-    initial={{ opacity: 0, x: index % 2 === 1 ? 50 : -50 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.5, delay: index * 0.2 }}
-  >
-    <div className="education-content">
-      <div className="education-header">
-        <h3 className="education-degree">{edu.degree}</h3>
-        <span className="education-duration">{edu.duration}</span>
-      </div>
-      <div className="education-institution">
-        <span className="institution-name">{edu.institution}</span>
-        <span className="education-score">{edu.score}</span>
-      </div>
-      <div className="education-highlights">
-        <ul>
-          {edu.highlights.map((highlight, idx) => (
-            <li key={idx}>{highlight}</li>
-          ))}
-        </ul>
-      </div>
-      <div className="skills-container">
-        <h4 className="skills-title">Key Learnings</h4>
-        <div className="skills-grid">
-          {edu.skills.map((skill, idx) => (
-            <SkillBadge key={idx} skill={skill} />
-          ))}
-        </div>
-      </div>
-    </div>
-          </motion.div>
-);
-
-const EducationSection = () => (
-  <section className="education-section">
-    <h2 className="section-title">Education</h2>
-    <div className="education-timeline">
-      {education.map((edu, idx) => (
-        <EducationCard key={idx} edu={edu} index={idx} />
-      ))}
-    </div>
-  </section>
-);
-
-const SocialIcon = ({ href, icon: Icon, label, className = "" }) => (
-  <motion.div 
-    className="contact-item"
-    whileHover={{ y: -5 }}
+const SkillItem = ({ skill }) => (
+  <motion.div
+    className="skill-item"
+    whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.3 }}
   >
-    <a href={href} className={`contact-link ${className}`} target="_blank" rel="noreferrer">
-      <div className="icon-wrapper">
-        <Icon />
-      </div>
-      <span>{label}</span>
-    </a>
+    <img src={skill.icon} alt={skill.name} className="skill-icon" />
+    <span className="skill-name">{skill.name}</span>
   </motion.div>
 );
 
-const ContactSection = () => (
-  <div className="contact-list">
-    <SocialIcon
-      href="mailto:rajputakshay2710@gmail.com"
-      icon={Mail}
-      label="rajputakshay2710@gmail.com"
-      className="gmail"
-    />
-    <SocialIcon
-      href="tel:+918511607538"
-      icon={Phone}
-      label="(+91)8511607538"
-      className="phone"
-    />
-    <motion.div className="contact-item" whileHover={{ y: -5 }}>
-      <div className="contact-info location">
-        <div className="icon-wrapper">
-          <MapPin />
+const SkillsGrid = () => (
+  <div className="skills-container grid-layout">
+    {Object.entries(skillCategories).map(([category, skills]) => (
+      <div key={category} className="skill-category grid-category">
+        <h3 className="category-title">{category}</h3>
+        <div className="category-skills-grid">
+          {skills.map((skill, index) => (
+            <SkillItem key={index} skill={skill} />
+          ))}
         </div>
-        <span>Surat, Gujarat</span>
       </div>
+    ))}
+  </div>
+);
+
+const HomePage = () => (
+  <div className="home-page">
+    <div className="home-hero">
+      <div className="home-left">
+        <motion.h1
+          className="home-name"
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          Hi, I am Akshay
+        </motion.h1>
+        <motion.div
+          className="home-highlights"
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <span className="highlight-tag">Software Engineer @ Motorola Solutions</span>
+          <span className="highlight-tag">Observability</span>
+          <span className="highlight-tag">Certified Kubernetes Administrator</span>
+        </motion.div>
+      </div>
+      <motion.div
+        className="home-right"
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
+        <div className="home-profile-pic">
+          <img src={`${process.env.PUBLIC_URL}/profilePic.jpg`} alt="Akshay" />
+        </div>
+      </motion.div>
+    </div>
+
+    <motion.div
+      className="home-skills-section"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.5 }}
+    >
+      <h2 className="skills-section-title">Skills</h2>
+      <SkillsGrid />
     </motion.div>
-    <SocialIcon
-      href="http://github.com/RajputAkshay27"
-      icon={Github}
-      label="Github"
-      className="github"
-    />
-    <SocialIcon
-      href="http://www.linkedin.com/in/akshay-rajput-748208201"
-      icon={Linkedin}
-      label="LinkedIn"
-      className="linkedin"
-    />
   </div>
 );
 
 const AboutSection = () => (
   <div className="about-section">
-    <div className="about-intro">
-      <p className="about-text">
-        Software Engineer with 2+ years of hands-on experience in Observability. Skilled in deploying and managing monitoring stacks,
-        automating infrastructure, and maintaining high availability for cloud-native applications. Proficient with GCP, Azure, Kubernetes,
-        Prometheus, Grafana, and CI/CD tools. Passionate about reducing toil, improving system visibility, and enhancing operational
-        resilience.
-      </p>
-    </div>
-    <div className="about-highlights">
-      {aboutHighlights.map((highlight, index) => (
-        <motion.div
-          key={index}
-          className="highlight-card"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
-        >
-          <div className="highlight-icon">{highlight.icon}</div>
-          <div className="highlight-content">
-            <h3>{highlight.title}</h3>
-            <p>{highlight.description}</p>
-          </div>
-        </motion.div>
-      ))}
+    <h2 className="section-title">About Me</h2>
+    <div className="about-intro option1">
+      <div className="about-text">
+        <h3 className="about-subtitle">Professional Background</h3>
+        <p>I am Akshay Rajput, a dedicated Cloud Platform Engineer with a strong foundation in Computer Science and Technology. I hold a Bachelor of Technology degree from Charusat University, where I delved in Machine Learning and gained hands-on experience with distributed systems technologies including Apache Spark and Kubernetes.</p>
+        
+        <h3 className="about-subtitle">Current Role & Expertise</h3>
+        <p>In my current position as a Software Engineer at Motorola Solutions, I specialize in observability and monitoring solutions, focusing on metrics collection, analysis, and visualization using industry-standard tools such as Prometheus, Grafana, and Thanos. My work encompasses multi-cloud environments including AWS, Azure, and Google Cloud Platform, where I have developed expertise in architecting scalable, resilient solutions and implementing automated workflows to enhance operational efficiency and system reliability.</p>
+        
+        <h3 className="about-subtitle">Certifications & Professional Development</h3>
+        <p>To strengthen my professional credentials and technical expertise, I have earned the Certified Kubernetes Administrator (CKA) certification and hold multiple Google Cloud Platform certifications, including Professional Cloud Architect and Associate Cloud Engineer. These certifications validate my proficiency in cloud technologies and demonstrate my commitment to continuous learning and professional development in the rapidly evolving field of cloud computing.</p>
+        
+        <h3 className="about-subtitle">Technical Philosophy & Approach</h3>
+        <p>I am passionate about collaborative problem-solving and continuous improvement methodologies. My approach centers on creating dynamic, automated solutions that enhance system reliability, improve operational efficiency, and reduce manual intervention. I believe in leveraging cutting-edge technologies to solve complex challenges while maintaining a focus on scalability, security, and maintainability in all technical implementations.</p>
+      </div>
     </div>
   </div>
 );
 
+const DarkModeToggle = ({ isDark, toggleDarkMode }) => (
+  <motion.button
+    className="dark-mode-toggle"
+    onClick={toggleDarkMode}
+    whileHover={{ scale: 1.1 }}
+    whileTap={{ scale: 0.9 }}
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.3 }}
+  >
+    <motion.div
+      className="toggle-icon"
+      animate={{ rotate: isDark ? 180 : 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      {isDark ? <Sun size={20} /> : <Moon size={20} />}
+    </motion.div>
+  </motion.button>
+);
+
+const CompactContactIcon = ({ href, icon: Icon, label, className = "" }) => (
+  <motion.a
+    href={href}
+    className={`compact-contact-icon ${className}`}
+    target="_blank"
+    rel="noreferrer"
+    whileHover={{ scale: 1.1 }}
+    whileTap={{ scale: 0.9 }}
+    title={label}
+  >
+    <Icon size={18} />
+  </motion.a>
+);
+
+const HeaderComponent = ({ activeTab, setActiveTab, isDarkMode, toggleDarkMode }) => {
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <header className="portfolio-header">
+      <div className="header-content">
+        <div className="header-left">
+          <div className="brand">
+            <h1 className="brand-name">Akshay Rajput</h1>
+          </div>
+          <nav className="tab-navigation">
+            {tabs.map(tab => (
+              <button
+                key={tab}
+                className={`tab-button ${activeTab === tab ? 'active' : ''}`}
+                onClick={() => handleTabClick(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </nav>
+        </div>
+
+        <div className="header-right">
+          <div className="compact-contact-icons">
+            <CompactContactIcon
+              href="mailto:rajputakshay2710@gmail.com"
+              icon={Mail}
+              label="Email"
+              className="email"
+            />
+            <CompactContactIcon
+              href="tel:+918511607538"
+              icon={Phone}
+              label="Phone"
+              className="phone"
+            />
+            <CompactContactIcon
+              href="http://github.com/RajputAkshay27"
+              icon={Github}
+              label="GitHub"
+              className="github"
+            />
+            <CompactContactIcon
+              href="http://www.linkedin.com/in/akshay-rajput-748208201"
+              icon={Linkedin}
+              label="LinkedIn"
+              className="linkedin"
+            />
+            <CompactContactIcon
+              href="https://leetcode.com/u/rajputakshay2710/"
+              icon={Code2}
+              label="LeetCode"
+              className="leetcode"
+            />
+            <CompactContactIcon
+              href="https://www.credly.com/users/akshay-rajput.774905ee"
+              icon={Award}
+              label="Credly"
+              className="credly"
+            />
+          </div>
+          <DarkModeToggle isDark={isDarkMode} toggleDarkMode={toggleDarkMode} />
+        </div>
+      </div>
+    </header>
+  );
+};
+
 const Portfolio = () => {
-  const [activeTab, setActiveTab] = useState('About');
+  const [activeTab, setActiveTab] = useState('Home');
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    return saved ? JSON.parse(saved) : false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   return (
     <div className="portfolio-container">
-      <header className="portfolio-header">
-        <div className="button-group">
-          {tabs.map(tab => (
-            <button
-              key={tab}
-              className={activeTab === tab ? 'active' : ''}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-        <div className='profile'>
-          <div className="profile-pic">
-            <img src={`${process.env.PUBLIC_URL}/profilePic.jpg`} alt="Akshay" />
-          </div>
-          <div className="intro">
-            <h1>Akshaykumarsingh Rajput</h1>
-            <p><h2><b>Software Engineer @ Motorola Solutions</b></h2></p>
-            <p><h2><b>GCP Professional Cloud Architect</b></h2></p>
-          </div>
-        </div>
-      </header>
+      <HeaderComponent
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        isDarkMode={isDarkMode}
+        toggleDarkMode={toggleDarkMode}
+      />
 
       <main className="portfolio-main">
-        <SectionWrapper show={activeTab === 'About'}>
-          <AboutSection />
+        <SectionWrapper show={activeTab === 'Home'}>
+          <HomePage />
         </SectionWrapper>
 
-        <SectionWrapper show={activeTab === 'Contact Me'}>
-          <ContactSection />
+        <SectionWrapper show={activeTab === 'About'}>
+          <AboutSection />
         </SectionWrapper>
 
         <SectionWrapper show={activeTab === 'Portfolio'}>
           <div className="portfolio-section">
             <ExperienceSection />
-            <SkillsSection />
             <CertificationsSection />
             <ProjectsSection />
-            <EducationSection />
           </div>
         </SectionWrapper>
       </main>
