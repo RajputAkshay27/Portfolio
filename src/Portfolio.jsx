@@ -64,13 +64,12 @@ const workExperience = [
       <ul className="list-disc ml-6">
         <li><b>Security and Compliance:</b> Led FIPS compliance initiative for Prometheus monitoring stack, implementing
           cryptographic security protocols and achieving <b>$50,000</b> cost savings through optimized container images</li>
-        <li><b>System Reliability:</b> Architect-ed and implemented system improvements that increased availability to
-          <b>99.90%</b>, supporting critical business operations. </li>
+        <li><b>System Reliability:</b> Rearchitected and implemented system improvements for the on-premise data collection solutions that increased availability to 
+          <b> 99.90%</b>, supporting critical business operations. </li>
         <li><b>Multi-Cloud Operations:</b> Designed and deployed automated workflows managing <b>30+</b> Kubernetes clusters
           across multi-cloud environments, significantly reducing operational overhead</li>
         <li><b>Critical Monitoring:</b> Engineered custom shell script to collect PVC storage utilization metrics, integrated
-          with Prometheus alerting system, reducing <b>disk-full incidents to near zero</b> and preventing multiple pro-
-          duction outages.</li>
+          with Prometheus alerting system, reducing <b>disk-full incidents to near zero</b> and preventing multiple production outages.</li>
       </ul>
     ),
     skills: [
@@ -90,15 +89,13 @@ const workExperience = [
     duration: "May 2023 - May 2024",
     content: (
       <ul className="list-disc ml-6">
-        <li><b>Critical Issue Resolution:</b> Resolved long-standing CAdvisor metrics collection issue <b>(1.5+ years)</b>, elimi-
-          nating need for secondary exporter and improving system performance and cost efficiency</li>
-        <li><b>Observability Enhancement:</b> Built comprehensive observability dashboards providing real-time perfor-
-          mance indicators and system health metrics, accelerating incident detection and reducing mean time to identify
+        <li><b>Critical Issue Resolution:</b> Resolved long-standing CAdvisor metrics collection issue <b>(1.5+ years)</b>, eliminating need for secondary exporter and improving system performance and cost efficiency</li>
+        <li><b>Observability Enhancement:</b> Built comprehensive observability dashboards providing real-time performance indicators and system health metrics, accelerating incident detection and reducing mean time to identify
           <b>(MTTI) by 40 percent.</b></li>
         <li><b>Performance Optimization:</b> Developed custom event-driven KEDA auto-scaler, improving microservices
           performance and resource utilization efficiency
         </li>
-        <li><b>Testing:</b> Built comprehensive Cypress-based test suites streamlining both local development.</li>
+        <li><b>Testing:</b> Built comprehensive Cypress-based test suites streamlining local development.</li>
       </ul>
     ),
     skills: [
@@ -393,7 +390,7 @@ const DarkModeToggle = ({ isDark, toggleDarkMode }) => (
   >
     <motion.div
       className="toggle-icon"
-      animate={{ rotate: isDark ? 180 : 0 }}
+      animate={{ rotate: isDark ? 0 : 180 }}
       transition={{ duration: 0.3 }}
     >
       {isDark ? <Sun size={20} /> : <Moon size={20} />}
@@ -462,7 +459,7 @@ const HeaderComponent = ({ activeTab, setActiveTab, isDarkMode, toggleDarkMode }
               className="github"
             />
             <CompactContactIcon
-              href="http://www.linkedin.com/in/akshay-rajput-748208201"
+              href="http://www.linkedin.com/in/akshay2710"
               icon={Linkedin}
               label="LinkedIn"
               className="linkedin"
