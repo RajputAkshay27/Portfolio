@@ -31,6 +31,20 @@ const skillCategories = {
     { name: "Bash", icon: `${process.env.PUBLIC_URL}/icons/bash.svg` },
     { name: "C++", icon: `${process.env.PUBLIC_URL}/icons/cpp.svg` },
     { name: "C", icon: `${process.env.PUBLIC_URL}/icons/c.svg` }
+  ],
+  "Agentic AI": [
+    { name: "Microsoft Agent Framework", icon: `${process.env.PUBLIC_URL}/icons/microsoft.svg` },
+    { name: "AWS Strands", icon: `${process.env.PUBLIC_URL}/icons/aws-strands.svg` },
+    { name: "Google ADK", icon: `${process.env.PUBLIC_URL}/icons/google-adk.svg` },
+    { name: "Gemini Enterprise Platform", icon: `${process.env.PUBLIC_URL}/icons/gemini.svg` },
+    { name: "MCP", icon: `${process.env.PUBLIC_URL}/icons/mcp.svg` },
+    { name: "AWS Bedrock Agents", icon: `${process.env.PUBLIC_URL}/icons/aws-bedrock.svg` }
+  ],
+  "Agentic Coding": [
+    { name: "Claude Code", icon: `${process.env.PUBLIC_URL}/icons/anthropic.svg` },
+    { name: "Devin", icon: `${process.env.PUBLIC_URL}/icons/devin.svg` },
+    { name: "GitHub Copilot", icon: `${process.env.PUBLIC_URL}/icons/githubcopilot.svg` },
+    { name: "Cursor", icon: `${process.env.PUBLIC_URL}/icons/cursor.svg` }
   ]
 };
 
