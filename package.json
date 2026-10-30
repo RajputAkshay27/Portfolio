@@ -1,5 +1,5 @@
 {
-  "homepage": "https://rajputakshay27.github.io/Portfolio",
+  "homepage": ".",
   "name": "portfolio",
   "version": "0.1.1",
   "private": true,
@@ -19,7 +19,7 @@
     "start": "react-scripts start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "build": "cross-env CI=false react-scripts build",
+    "build": "CI=false react-scripts build",
     "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject"
   },
